@@ -240,7 +240,24 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
 #touchControls{padding-bottom:env(safe-area-inset-bottom);padding-left:max(1rem,env(safe-area-inset-left));padding-right:max(1rem,env(safe-area-inset-right))}
 .arcade-btn{touch-action:none;-webkit-user-select:none;user-select:none}
 @media (max-height:480px){header{padding-top:.25rem;padding-bottom:.25rem} #hudSubInfo{display:none} #touchControls .arcade-btn{width:3.25rem;height:3.25rem}}
-@media (max-width:640px){#inGameStats{gap:.4rem} #inGameStats span{font-size:.7rem}}
+body.touch-layout{--ctl:92px}
+@media (max-height:480px){body.touch-layout{--ctl:74px}}
+body.touch-layout #gameCanvas{height:calc(100% - var(--ctl) - env(safe-area-inset-bottom,0px))!important}
+body.touch-layout #touchControls{height:calc(var(--ctl) + env(safe-area-inset-bottom,0px));bottom:0!important;left:0;right:0;align-items:center!important;
+  background:linear-gradient(180deg,#0f172a,#050a0e);border-top:2px solid rgba(34,197,94,.4);padding-top:.3rem}
+@media (max-width:900px),(max-height:480px){
+  header{gap:.4rem;padding-top:max(.3rem,env(safe-area-inset-top));padding-bottom:.3rem}
+  header>div:first-child{display:none}
+  header>*:last-child{margin-left:auto}
+  header button{padding:.3rem .55rem!important;font-size:.7rem!important;white-space:nowrap}
+  #inGameStats{gap:.3rem!important;flex-wrap:nowrap}
+  #inGameStats>div{padding:.2rem .45rem!important;white-space:nowrap;border-radius:.5rem}
+  #inGameStats span{font-size:.75rem!important;line-height:1.2}
+  #inGameStats>div:not(:nth-child(3)) .text-xs{display:none}
+  header:has(#inGameStats:not(.hidden)) button[onclick^="openPrizeModal"]{display:none}
+  #hudTimerWrap{display:flex!important}
+  #hudTimerWrap .text-xs{display:none}
+}
 
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,700;1,700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -314,6 +331,10 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
                 <span class="text-xs text-amber-300">💵 Gs.</span>
                 <span id="hudMoney" class="text-sm sm:text-base font-bold text-amber-300">0</span>
             </div>
+            <div class="flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
+                <span class="text-sm">🔧</span>
+                <span id="hudAmmo" class="text-sm sm:text-base font-bold text-cyan-400">0</span>
+            </div>
             <div id="hudTimerWrap" class="hidden sm:flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
                 <span class="text-xs text-slate-400">TIEMPO:</span>
                 <span id="hudTimer" class="text-sm sm:text-base font-bold text-cyan-400">90s</span>
@@ -324,9 +345,6 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
         <div class="flex items-center gap-2">
             <button id="btnAudio" onclick="toggleAudio()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-400 text-sm font-bold transition" title="Sonido y Voces">
                 🔊
-            </button>
-            <button onclick="openPrizeModal()" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-300 font-tech font-bold text-xs uppercase transition">
-                ⚙️ Premio
             </button>
             <button id="btnMenuReturn" onclick="showMenu()" class="hidden px-3 py-1.5 rounded-xl bg-rose-950 hover:bg-rose-900 border border-rose-700 text-rose-200 font-tech font-bold text-xs uppercase transition">
                 Menú
@@ -358,7 +376,7 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
                             <p class="font-tech font-bold text-emerald-400 uppercase">Controles Estilo Mario:</p>
                             <p>⬅️ ➡️ <b>A / D</b> : Adelante y Atrás</p>
                             <p>⬆️ <b>W / Espacio</b> : Saltar (Grito agudo)</p>
-                            <p>⬇️ <b>S / Flecha Abajo</b> : Agacharse bajo rayos</p>
+                            <p>⬇️ <b>S / Flecha Abajo</b> : Agacharse bajo rayos<br>🔧 <b>J / K</b> : Lanzar poder (busca polo)</p>
                         </div>
                     </div>
 
@@ -367,7 +385,7 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
                         <div class="border-b border-slate-800 pb-2 flex items-center justify-between">
                             <div>
                                 <h2 class="font-tech text-2xl sm:text-3xl font-extrabold text-white uppercase">Super Circuito Bros</h2>
-                                <p class="text-xs text-slate-400">Activa todos los interruptores del circuito y llega al Generador Final.</p>
+                                <p class="text-xs text-slate-400">Recoge todos los billetes grandes y llega al Generador Final.</p>
                             </div>
                             <span id="menuCompletedCount" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-tech font-bold text-xs border border-emerald-500/30">
                                 0/4
@@ -381,7 +399,7 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
                                     <span id="lvlStatus1" class="text-[11px] font-bold text-slate-500">LISTO</span>
                                 </div>
                                 <h3 class="font-tech text-lg font-bold text-white group-hover:text-emerald-300">Obra: Cimientos</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">Saltos sencillos, cables altos para agacharse y 3 interruptores.</p>
+                                <p class="text-xs text-slate-400 mt-0.5">Saltos sencillos, cables altos para agacharse y 3 billetes grandes.</p>
                             </button>
 
                             <button onclick="startLevel(2)" class="text-left p-3.5 rounded-2xl bg-slate-950 hover:bg-cyan-950/50 border-2 border-slate-800 hover:border-cyan-400 transition group">
@@ -390,7 +408,7 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
                                     <span id="lvlStatus2" class="text-[11px] font-bold text-slate-500">LISTO</span>
                                 </div>
                                 <h3 class="font-tech text-lg font-bold text-white group-hover:text-cyan-300">Torre de Alta Tensión</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">Fosos eléctricos, chispas patrullando y túneles de cableado bajo.</p>
+                                <p class="text-xs text-slate-400 mt-0.5">Fosos eléctricos, rayos patrullando y túneles de cableado bajo.</p>
                             </button>
 
                             <button onclick="startLevel(3)" class="text-left p-3.5 rounded-2xl bg-slate-950 hover:bg-amber-950/50 border-2 border-slate-800 hover:border-amber-400 transition group">
@@ -399,7 +417,7 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
                                     <span id="lvlStatus3" class="text-[11px] font-bold text-slate-500">LISTO</span>
                                 </div>
                                 <h3 class="font-tech text-lg font-bold text-white group-hover:text-amber-300">Andamios Eléctricos</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">Plataformas elevadoras móviles, arcos láser y 5 interruptores.</p>
+                                <p class="text-xs text-slate-400 mt-0.5">Plataformas elevadoras móviles, vigas móviles y más billetes.</p>
                             </button>
 
                             <button onclick="startLevel(4)" class="text-left p-3.5 rounded-2xl bg-slate-950 hover:bg-rose-950/50 border-2 border-slate-800 hover:border-rose-400 transition group">
@@ -446,18 +464,10 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
                     </div>
 
                     <div id="vaultOpened" class="hidden">
-                        <div class="text-xs font-tech font-bold text-emerald-400 uppercase mb-1">🎉 ¡RECOMPENSA REVELADA! 🎉</div>
-                        <h3 id="outPrizeTitle" class="font-tech text-xl font-bold text-white mb-2">Premio del Maestro</h3>
-                        <p id="outPrizeText" class="text-sm text-amber-200 bg-slate-900 p-3 rounded-xl border border-amber-400/30 mb-3">
-                            ¡Felicidades por superar el circuito!
-                        </p>
-                        <div id="outPrizeCodeWrap" class="flex items-center justify-center gap-2 mb-2">
-                            <code id="outPrizeCode" class="px-3 py-1 rounded-lg bg-slate-900 text-emerald-400 font-mono text-sm font-bold border border-emerald-500/40">VOLTAJE-PRO</code>
-                            <button onclick="copyCode()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-white font-semibold">Copiar</button>
-                        </div>
-                        <a id="outPrizeLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden inline-block mt-1 px-4 py-1.5 rounded-lg bg-cyan-500/20 border border-cyan-400 text-cyan-300 text-xs font-bold uppercase">
-                            Ir al Enlace del Premio ↗
-                        </a>
+                        <div class="text-xs font-tech font-bold text-emerald-400 uppercase mb-2">🎉 ¡PREMIO DESBLOQUEADO! 🎉</div>
+                        <img id="prizeImg" src="premio.png" alt="Premio" style="max-width:100%;max-height:44vh;margin:0 auto;display:block;border-radius:1rem"
+                             onerror="this.style.display='none';document.getElementById('prizeMissing').style.display='block'">
+                        <p id="prizeMissing" class="text-sm text-amber-200" style="display:none">🎁 Falta el archivo <b>premio.png</b>: ponlo en la misma carpeta que index.html.</p>
                     </div>
                 </div>
 
@@ -488,44 +498,15 @@ header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,e
                 </button>
             </div>
 
-            <!-- Botón de Salto -->
-            <div class="pointer-events-auto">
+            <!-- Botón de Poder + Salto -->
+            <div class="pointer-events-auto flex items-center gap-3">
+                <button id="btnTouchFire" class="arcade-btn w-14 h-14 rounded-full flex flex-col items-center justify-center text-cyan-300 font-bold border-cyan-400">
+                    <span class="text-xl leading-none">⚡</span><span id="btnFireAmmo" class="text-[10px] font-tech">0</span>
+                </button>
                 <button id="btnTouchJump" class="arcade-btn w-16 h-16 sm:w-20 sm:h-20 rounded-full flex flex-col items-center justify-center text-emerald-400 font-bold border-emerald-500/60">
                     <span class="text-2xl leading-none">▲</span>
                     <span class="text-[10px] font-tech uppercase mt-0.5">Saltar</span>
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL CONFIGURACIÓN DE PREMIO -->
-    <div id="prizeModal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-slate-900 border-2 border-amber-400/60 rounded-3xl max-w-md w-full p-6 shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
-                <h3 class="font-tech text-xl font-bold text-amber-400 uppercase">⚙️ Configurar Premio Final</h3>
-                <button onclick="closePrizeModal()" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
-            </div>
-            <div class="space-y-3 text-left">
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Título del Premio</label>
-                    <input id="cfgTitle" type="text" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Mensaje Secreto</label>
-                    <textarea id="cfgText" rows="3" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm"></textarea>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Código de Canje (Opcional)</label>
-                    <input id="cfgCode" type="text" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-emerald-400 font-mono text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Enlace URL (Opcional)</label>
-                    <input id="cfgLink" type="url" placeholder="https://..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-cyan-300 text-sm">
-                </div>
-            </div>
-            <div class="mt-5 flex justify-end gap-2">
-                <button onclick="closePrizeModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold uppercase">Cancelar</button>
-                <button onclick="savePrizeModal()" class="px-5 py-2 rounded-xl bg-amber-400 text-slate-950 font-tech font-bold text-xs uppercase">Guardar</button>
             </div>
         </div>
     </div>
@@ -959,55 +940,12 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             if (saved) prizeConfig = { ...prizeConfig, ...JSON.parse(saved) };
         } catch (e) {}
 
-        function openPrizeModal() {
-            document.getElementById('cfgTitle').value = prizeConfig.title;
-            document.getElementById('cfgText').value = prizeConfig.text;
-            document.getElementById('cfgCode').value = prizeConfig.code;
-            document.getElementById('cfgLink').value = prizeConfig.link;
-            document.getElementById('prizeModal').classList.remove('hidden');
-        }
-        function closePrizeModal() {
-            document.getElementById('prizeModal').classList.add('hidden');
-        }
-        function savePrizeModal() {
-            prizeConfig.title = document.getElementById('cfgTitle').value.trim() || "🏆 ¡Premio Ganado!";
-            prizeConfig.text = document.getElementById('cfgText').value.trim() || "¡Felicidades!";
-            prizeConfig.code = document.getElementById('cfgCode').value.trim();
-            prizeConfig.link = document.getElementById('cfgLink').value.trim();
-            try { localStorage.setItem('vm_bros_prize', JSON.stringify(prizeConfig)); } catch (e) {}
-            closePrizeModal();
-            showToast("✅ Premio guardado correctamente");
-        }
         function revealPrize() {
-            playFemaleScream('win');
             document.getElementById('vaultClosed').classList.add('hidden');
             document.getElementById('vaultOpened').classList.remove('hidden');
-            document.getElementById('outPrizeTitle').textContent = prizeConfig.title;
-            document.getElementById('outPrizeText').textContent = prizeConfig.text;
-            if (prizeConfig.code) {
-                document.getElementById('outPrizeCodeWrap').classList.remove('hidden');
-                document.getElementById('outPrizeCode').textContent = prizeConfig.code;
-            } else {
-                document.getElementById('outPrizeCodeWrap').classList.add('hidden');
-            }
-            const linkEl = document.getElementById('outPrizeLink');
-            if (prizeConfig.link) {
-                linkEl.href = prizeConfig.link;
-                linkEl.classList.remove('hidden');
-            } else {
-                linkEl.classList.add('hidden');
-            }
+            playFemaleScream('win');
         }
-        function copyCode() {
-            const txt = document.getElementById('outPrizeCode').textContent;
-            const inp = document.createElement('input');
-            inp.value = txt;
-            document.body.appendChild(inp);
-            inp.select();
-            document.execCommand('copy');
-            document.body.removeChild(inp);
-            showToast("📋 Código copiado: " + txt);
-        }
+
         function showToast(msg) {
             const t = document.getElementById('toastBox');
             t.textContent = msg;
@@ -1022,24 +960,27 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        const VIEW = { zoom: 1, w: 960, extra: 0 };
+        const VIEW = { zoom: 1, w: 960, extra: 0, pad: 0 };
         function resizeCanvas() {
-            const rect = canvas.parentElement.getBoundingClientRect();
-            const cw = Math.max(200, rect.width), ch = Math.max(150, rect.height);
+            document.body.classList.toggle('touch-layout', window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 900);
+            const cw = Math.max(200, canvas.clientWidth), ch = Math.max(150, canvas.clientHeight);
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            const z = Math.max(0.35, Math.min(ch / 540, cw / 720));   // zoom en px CSS
+            const pad = 0;
+            const z = Math.max(0.35, Math.min((ch - pad) / 540, cw / 560));   // zoom en px CSS
             canvas.width = Math.round(cw * dpr);
             canvas.height = Math.round(ch * dpr);
             VIEW.zoom = z * dpr;
             VIEW.w = cw / z;
-            VIEW.extra = Math.max(0, ch / z - 540);
+            VIEW.extra = Math.max(0, (ch - pad) / z - 540);
+            VIEW.pad = pad / z;
         }
         window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 200));
-        if (window.ResizeObserver) new ResizeObserver(resizeCanvas).observe(canvas.parentElement);
+        if (window.ResizeObserver) new ResizeObserver(resizeCanvas).observe(canvas);
+        if (window.visualViewport) window.visualViewport.addEventListener('resize', resizeCanvas);
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        const keys = { left: false, right: false, up: false, down: false };
+        const keys = { left: false, right: false, up: false, down: false, fire: false };
 
         window.addEventListener('keydown', (e) => {
             if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) {
@@ -1051,6 +992,7 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
                 if (!keys.up && gameState.running) tryJump();
                 keys.up = true;
             }
+            if ((e.code === 'KeyJ' || e.code === 'KeyK' || e.code === 'KeyF' || e.code === 'ShiftLeft') && !e.repeat) shoot();
             if (e.code === 'ArrowDown' || e.code === 'KeyS') {
                 if (!keys.down && gameState.running) playFemaleScream('duck');
                 keys.down = true;
@@ -1094,6 +1036,7 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
         bindTouchBtn('btnTouchRight', 'right');
         bindTouchBtn('btnTouchDown', 'down', () => playFemaleScream('duck'));
         bindTouchBtn('btnTouchJump', 'up', () => tryJump());
+        bindTouchBtn('btnTouchFire', 'fire', () => shoot());
 
         const gameState = {
             running: false,
@@ -1107,6 +1050,8 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             platforms: [],
             hazards: [],     // Cables colgantes (hay que agacharse) y arcos de suelo
             enemies: [],     // Chispas patrullando (se pueden saltar encima como Goombas!)
+            testers: [],     // Busca polos (dan poder)
+            shots: [],       // Descargas lanzadas
             switches: [],    // Billetes principales (obligatorios para la meta)
             bills: [],       // Billetes bonus
             money: 0,
@@ -1128,8 +1073,17 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             onGround: false,
             ducking: false,
             invulnTimer: 0,
-            walkCycle: 0
+            walkCycle: 0,
+            ammo: 0,
+            fireCd: 0
         };
+
+        function shoot() {
+            if (!gameState.running || player.ammo <= 0 || player.fireCd > 0) return;
+            player.ammo--; player.fireCd = 16;
+            gameState.shots.push({ x: player.x + player.width / 2 + player.facing * 26, y: player.y + player.height * 0.45, vx: 10 * player.facing, life: 70 });
+            playSfx('spring'); updateHud();
+        }
 
         function tryJump() {
             if (player.onGround) {
@@ -1222,12 +1176,19 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             buildLevelData(lvl);
             gameState.money = 0;
             gameState.bills = [];
+            gameState.testers = []; gameState.shots = []; player.ammo = 0; player.fireCd = 0;
+            gameState.platforms.filter(pl => pl.type === 'pcb' && pl.w >= 700).forEach((pl, i) => {
+                if (i % 2) return;
+                const tx = pl.x + pl.w * 0.65;
+                if (gameState.hazards.some(hz => tx > hz.x - 110 && tx < hz.x + hz.w + 70)) return;
+                gameState.testers.push({ x: tx, y: pl.y - 74, got: false });
+            });
             const cand = [];
             for (const pl of gameState.platforms) {
                 if (pl.type === 'pcb') { for (let bx = pl.x + 320; bx < pl.x + pl.w - 160; bx += 340) cand.push({ x: bx, y: pl.y - 80 }); }
                 else if (pl.type === 'resistor') cand.push({ x: pl.x + pl.w / 2 - 35, y: pl.y - 62 });
             }
-            const taken = gameState.switches.map(sw => ({ x: sw.x - 8, y: sw.y - 4 }));
+            const taken = gameState.switches.map(sw => ({ x: sw.x - 8, y: sw.y - 4 })).concat(gameState.testers.map(t => ({ x: t.x - 15, y: t.y })));
             for (const c of cand) {
                 const nearBill = taken.some(t => Math.abs(t.x - c.x) < 130 && Math.abs(t.y - c.y) < 90);
                 const nearWire = gameState.hazards.some(hz => c.x > hz.x - 90 && c.x < hz.x + hz.w + 40);
@@ -1277,6 +1238,8 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             document.getElementById('hudLives').textContent = '❤️'.repeat(Math.max(0, gameState.lives)) || '💀';
             const activeCount = gameState.switches.filter(s => s.active).length;
             document.getElementById('hudSwitches').textContent = `${activeCount}/${gameState.switches.length}`;
+            document.getElementById('hudAmmo').textContent = player.ammo || 0;
+            const fb = document.getElementById('btnFireAmmo'); if (fb) { fb.textContent = player.ammo || 0; fb.parentElement.style.opacity = player.ammo > 0 ? 1 : 0.45; }
             document.getElementById('hudMoney').textContent = (gameState.money || 0).toLocaleString('es-PY');
             document.getElementById('hudTimer').textContent = `${Math.ceil(gameState.timeLeft)}s`;
         }
@@ -1439,9 +1402,9 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
                         player.vy = -11;
                         playSfx('switch');
                         spawnParticles(en.x + 17, en.y + 17, '#f59e0b', 20);
-                        showToast("👟 ¡Chispa neutralizada!");
+                        showToast("👟 ¡Rayo neutralizado!");
                     } else {
-                        damagePlayer("💥 ¡Te tocó una chispa viva!");
+                        damagePlayer("💥 ¡Te tocó un rayo!");
                     }
                 }
             }
@@ -1468,6 +1431,25 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
                     updateHud();
                 }
             }
+
+            if (player.fireCd > 0) player.fireCd--;
+            for (const t of gameState.testers) {
+                if (!t.got && rectsOverlap(player.x, player.y, player.width, player.height, t.x - 4, t.y - 4, 48, 48)) {
+                    t.got = true; player.ammo = Math.min(12, player.ammo + 6);
+                    playSfx('switch'); spawnParticles(t.x + 20, t.y + 20, '#22d3ee', 22); updateHud();
+                    showToast("🔧 ¡Busca polo! Poder: tecla J / botón ⚡");
+                }
+            }
+            for (const sh of gameState.shots) {
+                sh.x += sh.vx; sh.life--;
+                for (const en of gameState.enemies) {
+                    if (en.alive && sh.life > 0 && rectsOverlap(sh.x - 10, sh.y - 10, 20, 20, en.x - 4, en.y - 4, 42, 42)) {
+                        en.alive = false; sh.life = 0; playSfx('switch');
+                        spawnParticles(en.x + 17, en.y + 17, '#67e8f9', 24);
+                    }
+                }
+            }
+            gameState.shots = gameState.shots.filter(sh => sh.life > 0);
 
             // Meta / Generador Final
             const g = gameState.goal;
@@ -1534,6 +1516,31 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             c.beginPath(); c.arc(x + w * 0.85, y + bob + h * 0.15 + Math.sin(sp) * 3, 2.5, 0, 6.28); c.fill();
         }
 
+        function drawTester(c, x, y, seed) {
+            const bob = Math.sin(frameTick * 0.07 + seed * 0.01) * 5;
+            c.save(); c.translate(x + 20, y + 20 + bob); c.rotate(-0.6);
+            c.shadowColor = 'rgba(34,211,238,0.95)'; c.shadowBlur = 18;
+            c.fillStyle = '#cbd5e1'; c.fillRect(-2, -28, 4, 18);
+            c.fillStyle = '#facc15'; c.beginPath(); c.roundRect(-7, -12, 14, 34, 5); c.fill();
+            c.shadowBlur = 0;
+            c.fillStyle = 'rgba(255,255,255,0.35)'; c.fillRect(-4, -10, 3, 28);
+            c.fillStyle = '#1f2937'; c.fillRect(-7, 16, 14, 6);
+            c.fillStyle = frameTick % 30 < 15 ? '#ef4444' : '#fecaca'; c.beginPath(); c.arc(0, -4, 3, 0, 6.28); c.fill();
+            c.fillStyle = '#94a3b8'; c.fillRect(6, -6, 2, 18);
+            c.restore();
+            c.strokeStyle = 'rgba(34,211,238,0.65)'; c.lineWidth = 2;
+            c.beginPath(); c.arc(x + 20, y + 20 + bob, 24 + Math.sin(frameTick * 0.1) * 2, 0, 6.28); c.stroke();
+        }
+
+        function drawShot(c, sh) {
+            c.save(); c.translate(sh.x, sh.y);
+            c.shadowColor = '#22d3ee'; c.shadowBlur = 16; c.strokeStyle = '#67e8f9'; c.lineWidth = 3;
+            c.beginPath(); c.moveTo(-sh.vx * 3, 0);
+            for (let i = 1; i <= 6; i++) c.lineTo(-sh.vx * 3 + i * sh.vx * 0.5, (Math.random() - 0.5) * 12);
+            c.stroke(); c.fillStyle = '#ecfeff'; c.beginPath(); c.arc(0, 0, 7, 0, 6.28); c.fill();
+            c.restore();
+        }
+
         function drawWorld() {
             const W = VIEW.w;
             const H = 540;
@@ -1542,10 +1549,11 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             ctx.setTransform(VIEW.zoom, 0, 0, VIEW.zoom, 0, VIEW.extra * VIEW.zoom);
 
             // Fondo: obra de construcción al atardecer (parallax)
-            const sky = ctx.createLinearGradient(0, 0, 0, H);
+            const sky = ctx.createLinearGradient(0, -VIEW.extra, 0, H);
             sky.addColorStop(0, '#0b1d33'); sky.addColorStop(0.6, '#3b3358'); sky.addColorStop(1, '#c2693a');
             ctx.fillStyle = '#0b1d33'; ctx.fillRect(0, -VIEW.extra - 2, W, VIEW.extra + 4);
-            ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+            ctx.fillStyle = sky; ctx.fillRect(0, -VIEW.extra - 2, W, H + VIEW.extra + 2);
+            if (VIEW.pad) { ctx.fillStyle = '#374151'; ctx.fillRect(0, H - 2, W, VIEW.pad + 4); }
             const cam = gameState.cameraX;
             // Edificios lejanos
             for (let k = 0, bx = -((cam * 0.12) % 190); bx < W + 190; bx += 190, k++) {
@@ -1567,8 +1575,17 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             ctx.save();
             ctx.translate(-cam, 0);
 
-            // Dibujar Plataformas
+            // Dibujar Plataformas (extrusión 2.5D: cara superior, lateral y sombra)
             for (const plat of gameState.platforms) {
+                {
+                    const d = 12, top = plat.type === 'pcb' ? '#9ca3af' : plat.type === 'resistor' ? '#fdba74' : '#fef08a';
+                    const side = plat.type === 'pcb' ? '#1f2937' : plat.type === 'resistor' ? '#9a3412' : '#a16207';
+                    if (plat.type !== 'pcb') { ctx.fillStyle = 'rgba(0,0,0,0.25)'; ctx.fillRect(plat.x + 8, plat.y + plat.h, plat.w, 12); }
+                    ctx.fillStyle = top; ctx.beginPath(); ctx.moveTo(plat.x, plat.y); ctx.lineTo(plat.x + d, plat.y - d * 0.8);
+                    ctx.lineTo(plat.x + plat.w + d, plat.y - d * 0.8); ctx.lineTo(plat.x + plat.w, plat.y); ctx.closePath(); ctx.fill();
+                    ctx.fillStyle = side; ctx.beginPath(); ctx.moveTo(plat.x + plat.w, plat.y); ctx.lineTo(plat.x + plat.w + d, plat.y - d * 0.8);
+                    ctx.lineTo(plat.x + plat.w + d, plat.y + plat.h - d * 0.8); ctx.lineTo(plat.x + plat.w, plat.y + plat.h); ctx.closePath(); ctx.fill();
+                }
                 if (plat.type === 'pcb') {
                     ctx.fillStyle = '#4b5563'; ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
                     ctx.fillStyle = '#6b7280'; ctx.fillRect(plat.x, plat.y, plat.w, 8);
@@ -1651,28 +1668,25 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
                 ctx.fillText(allActive ? '⚡' : '🔒', g.x + g.w / 2, g.y + 75);
             }
 
-            // Dibujar Enemigos Chispa Viva
+            // Dibujar Enemigos Rayo
             for (const en of gameState.enemies) {
                 if (!en.alive) continue;
-                ctx.save();
-                ctx.translate(en.x + 17, en.y + 17);
-                ctx.rotate(frameTick * 0.15);
-                ctx.fillStyle = '#f59e0b';
+                const fl = Math.sin(frameTick * 0.5 + en.x) * 2, hov = Math.sin(frameTick * 0.12 + en.x * 0.05) * 4;
+                ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.ellipse(en.x + 17, en.y + 38, 14, 4, 0, 0, 6.28); ctx.fill();
+                ctx.save(); ctx.translate(en.x, en.y + hov);
+                ctx.scale(en.vx < 0 ? -1 : 1, 1); if (en.vx < 0) ctx.translate(-34, 0);
+                ctx.shadowColor = '#fde047'; ctx.shadowBlur = 16 + fl;
+                const bg = ctx.createLinearGradient(0, 0, 0, 34); bg.addColorStop(0, '#fef08a'); bg.addColorStop(1, '#f97316');
+                ctx.fillStyle = bg; ctx.strokeStyle = '#fff7ed'; ctx.lineWidth = 1.5;
                 ctx.beginPath();
-                for (let i = 0; i < 8; i++) {
-                    const r = i % 2 === 0 ? 18 : 8;
-                    const a = (i * Math.PI) / 4;
-                    ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
-                }
-                ctx.closePath();
-                ctx.fill();
-                // Ojitos enojados
-                ctx.rotate(-frameTick * 0.15);
-                ctx.fillStyle = '#0f172a';
-                ctx.fillRect(-7, -4, 4, 5);
-                ctx.fillRect(3, -4, 4, 5);
+                [[21, -2], [4, 19], [15, 19], [8, 36], [31, 13], [20, 13], [28, -2]].forEach((pt, k) => k ? ctx.lineTo(pt[0], pt[1]) : ctx.moveTo(pt[0], pt[1]));
+                ctx.closePath(); ctx.fill(); ctx.stroke();
+                ctx.shadowBlur = 0; ctx.fillStyle = '#7c2d12';
+                ctx.fillRect(15, 8, 3, 4); ctx.fillRect(22, 8, 3, 4);
                 ctx.restore();
             }
+            for (const t of gameState.testers) if (!t.got) drawTester(ctx, t.x, t.y, t.x);
+            for (const sh of gameState.shots) drawShot(ctx, sh);
 
             // Dibujar Partículas
             for (const p of gameState.particles) {
@@ -1690,6 +1704,7 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
                 const centerX = player.x + player.width / 2;
                 const bottomY = player.y + player.height;
                 ctx.translate(centerX, bottomY);
+                ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.beginPath(); ctx.ellipse(0, 2, 30, 7, 0, 0, 6.28); ctx.fill();
                 ctx.scale(player.facing, 1);
                 if (RIG.ready) {
                     ctx.rotate(player.ducking ? 0 : player.vx * 0.012);

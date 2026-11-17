@@ -2,9 +2,247 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#050a0e">
     <title>Voltaje Maestro: Super Circuito Bros</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style id="tw-embedded">
+*,::before,::after{box-sizing:border-box;border:0 solid #e5e7eb}
+html{-webkit-text-size-adjust:100%;line-height:1.5}
+body,h1,h2,h3,p,pre{margin:0}
+h1,h2,h3{font-size:inherit;font-weight:inherit}
+button,input,textarea{font:inherit;color:inherit;margin:0;padding:0;background:transparent}
+button{cursor:pointer;-webkit-appearance:button}
+a{color:inherit;text-decoration:inherit}
+canvas,img{display:block}
+code{font-family:ui-monospace,Menlo,Consolas,monospace}
+.-translate-x-1\/2{transform:translateX(-50%)}
+.absolute{position:absolute}
+.backdrop-blur-md{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.backdrop-blur-sm{backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.bg-\[\#06120e\]{background-color:#06120e}
+.bg-amber-400{background-color:#fbbf24}
+.bg-amber-500\/20{background-color:rgba(245,158,11,0.2)}
+.bg-cyan-500\/20{background-color:rgba(6,182,212,0.2)}
+.bg-emerald-500{background-color:#10b981}
+.bg-emerald-500\/20{background-color:rgba(16,185,129,0.2)}
+.bg-gradient-to-b{background-image:linear-gradient(to bottom,var(--f),var(--t))}
+.bg-gradient-to-r{background-image:linear-gradient(to right,var(--f),var(--t))}
+.bg-rose-500\/20{background-color:rgba(244,63,94,0.2)}
+.bg-rose-950{background-color:#4c0519}
+.bg-slate-800{background-color:#1e293b}
+.bg-slate-900{background-color:#0f172a}
+.bg-slate-900\/95{background-color:rgba(15,23,42,0.95)}
+.bg-slate-950{background-color:#020617}
+.bg-slate-950\/80{background-color:rgba(2,6,23,0.8)}
+.bg-slate-950\/85{background-color:rgba(2,6,23,0.85)}
+.bg-slate-950\/90{background-color:rgba(2,6,23,0.9)}
+.block{display:block}
+.border{border-width:1px}
+.border-2{border-width:2px}
+.border-amber-400\/30{border-color:rgba(251,191,36,0.3)}
+.border-amber-400\/50{border-color:rgba(251,191,36,0.5)}
+.border-amber-400\/60{border-color:rgba(251,191,36,0.6)}
+.border-amber-400\/70{border-color:rgba(251,191,36,0.7)}
+.border-amber-500\/40{border-color:rgba(245,158,11,0.4)}
+.border-amber-500\/50{border-color:rgba(245,158,11,0.5)}
+.border-b{border-bottom-width:1px}
+.border-cyan-400{border-color:#22d3ee}
+.border-emerald-400{border-color:#34d399}
+.border-emerald-400\/60{border-color:rgba(52,211,153,0.6)}
+.border-emerald-500\/30{border-color:rgba(16,185,129,0.3)}
+.border-emerald-500\/40{border-color:rgba(16,185,129,0.4)}
+.border-emerald-500\/60{border-color:rgba(16,185,129,0.6)}
+.border-rose-700{border-color:#be123c}
+.border-slate-700{border-color:#334155}
+.border-slate-800{border-color:#1e293b}
+.bottom-2{bottom:0.5rem}
+.bottom-3{bottom:0.75rem}
+.duration-300{transition-duration:.3s}
+.fixed{position:fixed}
+.flex{display:flex}
+.flex-1{flex:1 1 0%}
+.flex-col{flex-direction:column}
+.font-bold{font-weight:700}
+.font-extrabold{font-weight:800}
+.font-mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+.font-semibold{font-weight:600}
+.from-emerald-500{--f:#10b981}
+.from-emerald-900\/40{--f:rgba(6,78,59,0.4)}
+.gap-1{gap:0.25rem}
+.gap-2{gap:0.5rem}
+.gap-2\.5{gap:0.625rem}
+.gap-3{gap:0.75rem}
+.gap-6{gap:1.5rem}
+.grid{display:grid}
+.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}
+.h-14{height:3.5rem}
+.h-16{height:4rem}
+.h-52{height:13rem}
+.h-9{height:2.25rem}
+.h-full{height:100%}
+.h-screen{height:100vh;height:100dvh}
+.inline-block{display:inline-block}
+.inset-0{inset:0}
+.items-center{align-items:center}
+.items-end{align-items:flex-end}
+.justify-between{justify-content:space-between}
+.justify-center{justify-content:center}
+.justify-end{justify-content:flex-end}
+.leading-none{line-height:1}
+.left-0{left:0}
+.left-1\/2{left:50%}
+.max-w-4xl{max-width:56rem}
+.max-w-lg{max-width:32rem}
+.max-w-md{max-width:28rem}
+.mb-1{margin-bottom:0.25rem}
+.mb-2{margin-bottom:0.5rem}
+.mb-3{margin-bottom:0.75rem}
+.mb-4{margin-bottom:1rem}
+.mb-5{margin-bottom:1.25rem}
+.mt-0\.5{margin-top:0.125rem}
+.mt-1{margin-top:0.25rem}
+.mt-2{margin-top:0.5rem}
+.mt-5{margin-top:1.25rem}
+.object-contain{object-fit:contain}
+.opacity-0{opacity:0}
+.overflow-hidden{overflow:hidden}
+.overflow-y-auto{overflow-y:auto}
+.p-2{padding:0.5rem}
+.p-3{padding:0.75rem}
+.p-3\.5{padding:0.875rem}
+.p-4{padding:1rem}
+.p-5{padding:1.25rem}
+.p-6{padding:1.5rem}
+.pb-2{padding-bottom:0.5rem}
+.pb-3{padding-bottom:0.75rem}
+.pointer-events-auto{pointer-events:auto}
+.pointer-events-none{pointer-events:none}
+.px-2{padding-left:0.5rem;padding-right:0.5rem}
+.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}
+.px-3{padding-left:0.75rem;padding-right:0.75rem}
+.px-4{padding-left:1rem;padding-right:1rem}
+.px-5{padding-left:1.25rem;padding-right:1.25rem}
+.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}
+.py-1{padding-top:0.25rem;padding-bottom:0.25rem}
+.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}
+.py-2{padding-top:0.5rem;padding-bottom:0.5rem}
+.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}
+.py-3{padding-top:0.75rem;padding-bottom:0.75rem}
+.relative{position:relative}
+.right-0{right:0}
+.rounded{border-radius:.25rem}
+.rounded-2xl{border-radius:1rem}
+.rounded-3xl{border-radius:1.5rem}
+.rounded-full{border-radius:9999px}
+.rounded-lg{border-radius:.5rem}
+.rounded-xl{border-radius:.75rem}
+.shadow-2xl{box-shadow:0 25px 50px -12px rgba(0,0,0,.25)}
+.shadow-\[0_0_12px_rgba\(34\,197\,94\,0\.4\)\]{box-shadow:0 0 12px rgba(34,197,94,0.4)}
+.shadow-lg{box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
+.shadow-xl{box-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1)}
+.shrink-0{flex-shrink:0}
+.text-2xl{font-size:1.5rem;line-height:1.3333}
+.text-3xl{font-size:1.875rem;line-height:1.2000}
+.text-4xl{font-size:2.25rem;line-height:1.1111}
+.text-\[10px\]{font-size:10px;line-height:1.4}
+.text-\[11px\]{font-size:11px;line-height:1.4}
+.text-\[9px\]{font-size:9px;line-height:1.4}
+.text-amber-200{color:#fde68a}
+.text-amber-300{color:#fcd34d}
+.text-amber-400{color:#fbbf24}
+.text-base{font-size:1rem;line-height:1.5000}
+.text-center{text-align:center}
+.text-cyan-300{color:#67e8f9}
+.text-cyan-400{color:#22d3ee}
+.text-emerald-300{color:#6ee7b7}
+.text-emerald-400{color:#34d399}
+.text-left{text-align:left}
+.text-lg{font-size:1.125rem;line-height:1.5556}
+.text-rose-200{color:#fecdd3}
+.text-rose-400{color:#fb7185}
+.text-slate-300{color:#cbd5e1}
+.text-slate-400{color:#94a3b8}
+.text-slate-500{color:#64748b}
+.text-slate-950{color:#020617}
+.text-sm{font-size:0.875rem;line-height:1.4286}
+.text-white{color:#ffffff}
+.text-xl{font-size:1.25rem;line-height:1.4000}
+.text-xs{font-size:0.75rem;line-height:1.3333}
+.to-cyan-500{--t:#06b6d4}
+.to-slate-950{--t:#020617}
+.top-16{top:4rem}
+.tracking-wider{letter-spacing:.05em}
+.transition{transition-property:color,background-color,border-color,opacity,box-shadow,transform;transition-duration:.15s}
+.transition-opacity{transition-property:opacity;transition-duration:.15s}
+.uppercase{text-transform:uppercase}
+.w-14{width:3.5rem}
+.w-16{width:4rem}
+.w-40{width:10rem}
+.w-9{width:2.25rem}
+.w-full{width:100%}
+.w-screen{width:100vw}
+.z-10{z-index:10}
+.z-20{z-index:20}
+.z-30{z-index:30}
+.z-50{z-index:50}
+.hidden{display:none}
+.group:hover .group-hover\:text-amber-300{color:#fcd34d}
+.group:hover .group-hover\:text-cyan-300{color:#67e8f9}
+.group:hover .group-hover\:text-emerald-300{color:#6ee7b7}
+.group:hover .group-hover\:text-rose-300{color:#fda4af}
+.hover\:bg-amber-300:hover{background-color:#fcd34d}
+.hover\:bg-amber-500\/30:hover{background-color:rgba(245,158,11,0.3)}
+.hover\:bg-amber-950\/50:hover{background-color:rgba(69,26,3,0.5)}
+.hover\:bg-cyan-950\/50:hover{background-color:rgba(8,51,68,0.5)}
+.hover\:bg-emerald-400:hover{background-color:#34d399}
+.hover\:bg-emerald-950\/50:hover{background-color:rgba(2,44,34,0.5)}
+.hover\:bg-rose-900:hover{background-color:#881337}
+.hover\:bg-rose-950\/50:hover{background-color:rgba(76,5,25,0.5)}
+.hover\:bg-slate-700:hover{background-color:#334155}
+.hover\:border-amber-400:hover{border-color:#fbbf24}
+.hover\:border-cyan-400:hover{border-color:#22d3ee}
+.hover\:border-emerald-400:hover{border-color:#34d399}
+.hover\:border-rose-400:hover{border-color:#fb7185}
+.hover\:from-emerald-400:hover{--f:#34d399}
+.hover\:scale-105:hover{transform:scale(1.05)}
+.hover\:text-white:hover{color:#ffffff}
+.hover\:to-cyan-400:hover{--t:#22d3ee}
+.active\:scale-98:active{transform:scale(.98)}
+@media (min-width:640px){
+.sm\:block{display:block}
+.sm\:flex{display:flex}
+.sm\:gap-5{gap:1.25rem}
+.sm\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sm\:h-16{height:4rem}
+.sm\:h-20{height:5rem}
+.sm\:h-60{height:15rem}
+.sm\:p-8{padding:2rem}
+.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}
+.sm\:text-3xl{font-size:1.875rem;line-height:1.2000}
+.sm\:text-base{font-size:1rem;line-height:1.5000}
+.sm\:text-sm{font-size:0.875rem;line-height:1.4286}
+.sm\:text-xl{font-size:1.25rem;line-height:1.4000}
+.sm\:w-16{width:4rem}
+.sm\:w-20{width:5rem}
+.sm\:w-48{width:12rem}
+}
+@media (min-width:768px){
+.md\:col-span-5{grid-column:span 5/span 5}
+.md\:col-span-7{grid-column:span 7/span 7}
+.md\:grid-cols-12{grid-template-columns:repeat(12,minmax(0,1fr))}
+}
+.space-y-3>:not([hidden])~:not([hidden]){margin-top:0.75rem}
+.space-y-1>:not([hidden])~:not([hidden]){margin-top:0.25rem}
+html,body{height:100%;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+body{margin:0;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+.font-tech{font-family:'Chakra Petch','Segoe UI',system-ui,Arial,sans-serif}
+header{padding-top:max(.5rem,env(safe-area-inset-top));padding-left:max(.75rem,env(safe-area-inset-left));padding-right:max(.75rem,env(safe-area-inset-right))}
+#touchControls{padding-bottom:env(safe-area-inset-bottom);padding-left:max(1rem,env(safe-area-inset-left));padding-right:max(1rem,env(safe-area-inset-right))}
+.arcade-btn{touch-action:none;-webkit-user-select:none;user-select:none}
+@media (max-height:480px){header{padding-top:.25rem;padding-bottom:.25rem} #hudSubInfo{display:none} #touchControls .arcade-btn{width:3.25rem;height:3.25rem}}
+@media (max-width:640px){#inGameStats{gap:.4rem} #inGameStats span{font-size:.7rem}}
+
+    </style>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,700;1,700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body {
@@ -784,11 +1022,20 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
+        const VIEW = { zoom: 1, w: 960, extra: 0 };
         function resizeCanvas() {
             const rect = canvas.parentElement.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
+            const cw = Math.max(200, rect.width), ch = Math.max(150, rect.height);
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const z = Math.max(0.35, Math.min(ch / 540, cw / 720));   // zoom en px CSS
+            canvas.width = Math.round(cw * dpr);
+            canvas.height = Math.round(ch * dpr);
+            VIEW.zoom = z * dpr;
+            VIEW.w = cw / z;
+            VIEW.extra = Math.max(0, ch / z - 540);
         }
+        window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 200));
+        if (window.ResizeObserver) new ResizeObserver(resizeCanvas).observe(canvas.parentElement);
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
@@ -838,6 +1085,7 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             };
             el.addEventListener('touchstart', press, { passive: false });
             el.addEventListener('touchend', release, { passive: false });
+            el.addEventListener('touchcancel', release, { passive: false });
             el.addEventListener('mousedown', press);
             el.addEventListener('mouseup', release);
             el.addEventListener('mouseleave', release);
@@ -910,7 +1158,7 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
            5. GENERACIÓN DE LOS 4 NIVELES DE CIRCUITO ESTILO MARIO
         ===================================================================== */
         function buildLevelData(lvl) {
-            const H = canvas.height || 500;
+            const H = 540;
             const groundY = H - 64;
             gameState.platforms = []; gameState.hazards = []; gameState.enemies = [];
             gameState.switches = []; gameState.springs = []; gameState.particles = [];
@@ -1144,7 +1392,7 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             }
 
             // Caída a foso de alta tensión
-            if (player.y > canvas.height + 40) {
+            if (player.y > 540 + 40) {
                 playFemaleScream('hurt');
                 gameState.lives--;
                 updateHud();
@@ -1256,9 +1504,9 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             }
 
             // Cámara suave siguiendo al personaje
-            const targetCam = player.x - canvas.width * 0.35;
+            const targetCam = player.x - VIEW.w * 0.35;
             gameState.cameraX += (targetCam - gameState.cameraX) * 0.12;
-            gameState.cameraX = Math.max(0, Math.min(gameState.levelWidth - canvas.width, gameState.cameraX));
+            gameState.cameraX = Math.max(0, Math.min(gameState.levelWidth - VIEW.w, gameState.cameraX));
         }
 
         function rectsOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
@@ -1287,13 +1535,16 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
         }
 
         function drawWorld() {
-            const W = canvas.width;
-            const H = canvas.height;
-            ctx.clearRect(0, 0, W, H);
+            const W = VIEW.w;
+            const H = 540;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.setTransform(VIEW.zoom, 0, 0, VIEW.zoom, 0, VIEW.extra * VIEW.zoom);
 
             // Fondo: obra de construcción al atardecer (parallax)
             const sky = ctx.createLinearGradient(0, 0, 0, H);
             sky.addColorStop(0, '#0b1d33'); sky.addColorStop(0.6, '#3b3358'); sky.addColorStop(1, '#c2693a');
+            ctx.fillStyle = '#0b1d33'; ctx.fillRect(0, -VIEW.extra - 2, W, VIEW.extra + 4);
             ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
             const cam = gameState.cameraX;
             // Edificios lejanos
@@ -1354,7 +1605,7 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             for (const hz of gameState.hazards) {
                 // Soporte metálico superior
                 ctx.fillStyle = '#334155';
-                ctx.fillRect(hz.x, 0, hz.w, hz.y);
+                ctx.fillRect(hz.x, -VIEW.extra - 20, hz.w, hz.y + VIEW.extra + 20);
                 // Zona de arco eléctrico amarillo/rojo abajo
                 ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
                 ctx.fillRect(hz.x, hz.y, hz.w, hz.h);
@@ -1464,7 +1715,7 @@ const RIG_META = {"head": {"x": 30.5, "y": 80.5, "w": 292.0, "h": 440.0}, "torso
             // Viñeta cinematográfica
             const vg = ctx.createRadialGradient(W / 2, H / 2, H * 0.45, W / 2, H / 2, Math.max(W, H) * 0.75);
             vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,10,8,0.55)');
-            ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+            ctx.fillStyle = vg; ctx.fillRect(0, -VIEW.extra, W, H + VIEW.extra);
         }
 
         function mainLoop() {
